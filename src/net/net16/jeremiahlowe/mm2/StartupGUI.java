@@ -38,6 +38,7 @@ public class StartupGUI implements GAC{
 			public void run(){
 				mouseMover.stop();
 				try{cfg.save();}catch(Exception e){}
+				if(Utility.ansiEnabled) System.out.print(AnsiColors.ANSI_RESET);
 			}
 		});
 	}
@@ -99,6 +100,7 @@ public class StartupGUI implements GAC{
 	}
 	@Override
 	public void onSetDevMode(boolean enabled) {
+		if(enabled) Utility.logWarn("Be careful in developer mode, I am not liable for ANY damages!");
 		onSaveConfig();
 	}
 	@Override
