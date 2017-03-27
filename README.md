@@ -8,7 +8,7 @@ Sadly, In most situations the teachers themseleves can't fix this because
 they don't have administrator privledges on thier own computers
 <br>
 Super cool feature list:
-** ANSI colors 
+** ANSI colors **
 * Multithreaded
 * Easy-to-use GUI
 * Developer mode
