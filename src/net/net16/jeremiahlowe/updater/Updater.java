@@ -20,6 +20,7 @@ public class Updater {
 			if(ind == -1) continue;
 			String front = line.substring(0, ind);
 			String back = line.substring(ind + 1);
+			if(front == null || back == null) continue;
 			if(front.matches("currentVersion")) needed = !back.matches(currentVersion);
 			if(front.matches("disableUpdates")) disabled = Boolean.parseBoolean(back);
 			System.out.println(front + " : " + back);
