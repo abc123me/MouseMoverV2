@@ -16,7 +16,7 @@ public class Launcher {
 			meta.load(new FileInputStream(metaFile));
 			File versionFile = Utility.downloadFile(downloadFrom, "recent");
 			List<String> lines = Utility.getVersionFileLines(versionFile);
-			if(Updater.needsUpdate(lines, meta.getProperty("version"))){
+			if(Updater.needsUpdate(lines, meta.getProperty("version", "NONE"))){
 				Updater.update(versionFile, "main.jar");
 				meta.setProperty("version", Updater.getVersion(lines));
 				meta.store(new FileOutputStream(metaFile), "Delete if you don't want auto-updating");
