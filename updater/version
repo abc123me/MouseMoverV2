@@ -1,5 +1,5 @@
-#Version file for updater
-currentVersion=1.0
-updateToVersion=false
+# Version file for updater
+currentVersion=1.1
+disableUpdates=false
 downloadLocation=https://github.com/abc123me/MouseMoverV2/blob/master/Updater/mousemover2.jar?raw=true
 fileName=current.jar

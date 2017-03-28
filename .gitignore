@@ -1,0 +1,11 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Configs/Logs
+config.txt
+latest_log.txt
+
+hs_err_pid*
