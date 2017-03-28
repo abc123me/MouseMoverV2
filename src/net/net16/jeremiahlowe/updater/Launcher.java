@@ -11,14 +11,20 @@ public class Launcher {
 	public static void main(String[] args) throws Exception{
 		try{
 			Properties meta = new Properties();
-			meta.load(new FileInputStream("current.meta"));
+			File metaFile = new File("current.meta");
+			metaFile.createNewFile();
+			meta.load(new FileInputStream(metaFile));
 			File versionFile = Utility.downloadFile(downloadFrom, "recent");
 			List<String> lines = Utility.getVersionFileLines(versionFile);
 			if(Updater.needsUpdate(lines, meta.getProperty("version"))){
 				Updater.update(versionFile, "main.jar");
 				meta.setProperty("version", Updater.getVersion(lines));
-				meta.store(new FileOutputStream("current.meta"), "Delete if you don't want auto-updating");
+				meta.store(new FileOutputStream(metaFile), "Delete if you don't want auto-updating");
 			}
-		}catch(Exception e){}
+		}
+		catch(Exception e){
+			System.err.println(e);
+			e.printStackTrace();
+		}
 	}
 }
