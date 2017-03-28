@@ -4,13 +4,15 @@ import java.io.File;
 import java.util.List;
 
 public class Updater {
-	public static File getUpdated(String versionFileURL, String newName) throws Exception{
+	public static File getUpdated(String versionFileURL, String newName, String currentVersion) throws Exception{
 		File versionFile = Utility.downloadFile(versionFileURL, "recent");
-		if(needsUpdate(versionFile, Metadata.CURRENT_VERSION)) return update(versionFile, newName);
+		if(needsUpdate(versionFile, currentVersion)) return update(versionFile, newName);
 		else return null;
 	}
 	public static boolean needsUpdate(File versionFile, String currentVersion) throws Exception{
-		List<String> lines = Utility.getVersionFileLines(versionFile);
+		return needsUpdate(Utility.getVersionFileLines(versionFile), currentVersion);
+	}
+	public static boolean needsUpdate(List<String> lines, String currentVersion) throws Exception{
 		boolean disabled = false, needed = false;
 		for(String line : lines){
 			line = Utility.removeCharacters(line, Utility.WHITESPACE);
@@ -23,6 +25,18 @@ public class Updater {
 			System.out.println(front + " : " + back);
 		}
 		return needed && !disabled;
+	}
+	public static String getVersion(List<String> lines){
+		for(String line : lines){
+			line = Utility.removeCharacters(line, Utility.WHITESPACE);
+			int ind = getIndex(line, '=');
+			if(ind == -1) continue;
+			String front = line.substring(0, ind);
+			String back = line.substring(ind + 1);
+			if(front.matches("currentVersion")) return back;
+			System.out.println(front + " : " + back);
+		}
+		return null;
 	}
 	public static File update(File versionFile) throws Exception{return update(versionFile, null);}
 	public static File update(File versionFile, String fileName) throws Exception{
