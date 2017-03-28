@@ -4,6 +4,11 @@ import java.io.File;
 import java.util.List;
 
 public class Updater {
+	public static File getUpdated(String versionFileURL, String newName) throws Exception{
+		File versionFile = Utility.downloadFile(versionFileURL, "recent");
+		if(needsUpdate(versionFile, Metadata.CURRENT_VERSION)) return update(versionFile, newName);
+		else return null;
+	}
 	public static boolean needsUpdate(File versionFile, String currentVersion) throws Exception{
 		List<String> lines = Utility.getVersionFileLines(versionFile);
 		boolean disabled = false, needed = false;
@@ -19,8 +24,8 @@ public class Updater {
 		}
 		return needed && !disabled;
 	}
-	public static void update(File versionFile) throws Exception{update(versionFile, null);}
-	public static void update(File versionFile, String fileName) throws Exception{
+	public static File update(File versionFile) throws Exception{return update(versionFile, null);}
+	public static File update(File versionFile, String fileName) throws Exception{
 		List<String> lines = Utility.getVersionFileLines(versionFile);
 		String downloadURL = null;
 		for(String line : lines){
@@ -33,7 +38,8 @@ public class Updater {
 			if(front.matches("fileName") && fileName == null) fileName = back;
 			System.out.println(front + " : " + back);
 		}
-		System.out.println("downloading " + downloadURL + " as " + fileName);
+		if(fileName == null) fileName = "unnamed.txt";
+		return Utility.downloadFile(downloadURL, fileName);
 	}
 	public static String getParameter(String in, char seperator){
 		in = Utility.removeCharacters(in, Utility.WHITESPACE);
