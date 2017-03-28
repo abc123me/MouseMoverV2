@@ -19,8 +19,21 @@ public class Updater {
 		}
 		return needed && !disabled;
 	}
-	public static void downloadUpdate() throws Exception{
-		
+	public static void update(File versionFile) throws Exception{update(versionFile, null);}
+	public static void update(File versionFile, String fileName) throws Exception{
+		List<String> lines = Utility.getVersionFileLines(versionFile);
+		String downloadURL = null;
+		for(String line : lines){
+			line = Utility.removeCharacters(line, Utility.WHITESPACE);
+			int ind = getIndex(line, '=');
+			if(ind == -1) continue;
+			String front = line.substring(0, ind);
+			String back = line.substring(ind + 1);
+			if(front.matches("downloadLocation")) downloadURL = back;
+			if(front.matches("fileName") && fileName == null) fileName = back;
+			System.out.println(front + " : " + back);
+		}
+		System.out.println("downloading " + downloadURL + " as " + fileName);
 	}
 	public static String getParameter(String in, char seperator){
 		in = Utility.removeCharacters(in, Utility.WHITESPACE);
