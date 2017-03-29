@@ -52,7 +52,8 @@ public class StartupGUI implements GAC{
 	//[start] GAC
 	@Override
 	public void onBreakEverything() {
-		Utility.logFatal("Everything broke!", new RuntimeException("Everything just broke"));
+		Utility.logFatal("Nullification has been given!", new NullPointerException());
+		System.exit(-1);
 	}
 	@Override
 	public void onRestartThreads() {

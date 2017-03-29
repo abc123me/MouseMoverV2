@@ -1,9 +1,9 @@
 #Config file for MouseMoverV2
-#Tue Mar 28 18:45:51 EDT 2017
+#Tue Mar 28 21:13:56 EDT 2017
 m2tray=false
-sysLF=true
 logDebug=false
-moveMillis=1000
+sysLF=true
 altMove=true
-devMode=false
+moveMillis=1000
+devMode=true
 c2tray=false

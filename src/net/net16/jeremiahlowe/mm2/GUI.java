@@ -101,7 +101,7 @@ public class GUI extends JFrame {
 		contentPane.addTab("Developer", null, devOptionsPanel, null);
 		contentPane.setEnabledAt(2, false);
 		devOptionsPanel.setLayout(null);
-		btnBreakEverything = new JButton("Break everything");
+		btnBreakEverything = new JButton("Exit gracefully");
 		btnBreakEverything.setBounds(10, 11, 140, 23);
 		devOptionsPanel.add(btnBreakEverything);
 		btnRestartThread = new JButton("Restart thread");

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class Utility {
 	public static GUI gui;
 	public static boolean showDebugMessages = false;
@@ -85,13 +87,26 @@ public class Utility {
 	public static void logSevere(String msg, Exception e){
 		logToGUI(gui, "[Severe]", msg, e, Color.RED, false, true);
 		logAnything(System.err, "[Severe]", msg, AnsiColors.ANSI_RED, e);
-		e.printStackTrace();
+		logStackTrace(e, false);
 	}
 	public static void logFatal(String msg, Exception e){
 		logToGUI(gui, "[Fatal]", msg, e, Color.RED, true, true);
 		logAnything(System.err, "[Fatal]", msg, AnsiColors.ANSI_RED, e);
-		e.printStackTrace();
+		JOptionPane.showMessageDialog(null, "Fatal exception:" + LS + e + LS + msg);
+		logStackTrace(e, true);
 		System.exit(-1);
+	}
+	private static void logStackTrace(Exception e, boolean isFatal){
+		logToFile("---------------------STACK TRACE META----------------------" + LS);
+		logToFile("Date: " + getDatePrefix() + LS);
+		logToFile("Level: " + (isFatal ? "Fatal" : "Severe") + LS);
+		logToFile("Cause: " + e.getCause() + LS);
+		logToFile("Message: " + e.getMessage() + LS);
+		logToFile("---------------------STACK TRACE BEGIN---------------------" + LS);
+		StackTraceElement[] ste = e.getStackTrace();
+		for(int i = 0; i < ste.length; i++) logToFile(ste[i].toString() + LS);
+		logToFile("---------------------STACK TRACE END-----------------------" + LS);
+		e.printStackTrace();
 	}
 	private static String buildLogMessage(String prefix, String msg, String cause){
 		String fullMsg = prefix.trim() + " " + getDatePrefix().trim() + ": " + msg;
