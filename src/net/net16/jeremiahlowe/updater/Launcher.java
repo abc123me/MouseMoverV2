@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 public class Launcher {
 	public static String downloadFrom = "https://raw.githubusercontent.com/abc123me/MouseMoverV2/master/updater/version";
-	public static String updaterDirectory = "updater2/";
+	public static String updaterDirectory = "updater/";
 	public static void main(String[] args) throws Exception{
 		for(int i = 0; i < args.length; i++){
 			String arg = args[i].trim();
