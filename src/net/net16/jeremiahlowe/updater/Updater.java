@@ -9,6 +9,11 @@ public class Updater {
 		if(needsUpdate(versionFile, currentVersion)) return update(versionFile, newName);
 		else return null;
 	}
+	public static File getUpdated(String versionFileURL, String newName, String currentVersion, String versionFileName) throws Exception{
+		File versionFile = Utility.downloadFile(versionFileURL, versionFileName);
+		if(needsUpdate(versionFile, currentVersion)) return update(versionFile, newName);
+		else return null;
+	}
 	public static boolean needsUpdate(File versionFile, String currentVersion) throws Exception{
 		return needsUpdate(Utility.getVersionFileLines(versionFile), currentVersion);
 	}
