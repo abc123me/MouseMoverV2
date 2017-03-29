@@ -56,7 +56,6 @@ public class Updater {
 			String back = line.substring(ind + 1);
 			if(front.matches("downloadLocation")) downloadURL = back;
 			if(front.matches("fileName") && fileName == null) fileName = back;
-			System.out.println(front + " : " + back);
 		}
 		if(fileName == null) fileName = "unnamed.txt";
 		return Utility.downloadFile(downloadURL, fileName);
