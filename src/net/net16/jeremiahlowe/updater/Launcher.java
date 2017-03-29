@@ -20,6 +20,7 @@ public class Launcher {
 			if(arg.matches("--get-from")) downloadFrom = args[i + 1].trim();
 		}
 		try{
+			new File(updaterDirectory).mkdir();
 			Properties meta = new Properties();
 			File metaFile = new File(updaterDirectory + "current.meta");
 			metaFile.createNewFile();
