@@ -1,5 +1,5 @@
 # Version file for updater
-currentVersion=1.4u (no-gui-logging)  
+currentVersion=1.4u
 disableUpdates=false
 downloadLocation=https://github.com/abc123me/MouseMoverV2/blob/master/build/main.jar?raw=true
 fileName=hello_world.txt
