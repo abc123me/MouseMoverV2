@@ -16,6 +16,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
 import javax.swing.JEditorPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -40,13 +42,11 @@ public class GUI extends JFrame {
 	private JButton btnSaveConfig;
 	private JButton btnLoadConfig;
 	private JTextPane textPane;
-	private Object lock;
 	private GAC gac;
-	private JEditorPane txtLogging;
+	private JTextPane txtLogging;
 	private JCheckBox chckbxLogDebug;
 	public GUI(GAC gac) {
 		this.gac = gac;
-		lock = new Object();
 		setTitle("Mouse mover V2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -92,9 +92,9 @@ public class GUI extends JFrame {
 		horizontalBox_1.add(horizontalGlue);
 		JScrollPane loggingPane = new JScrollPane();
 		contentPane.addTab("Logging", null, loggingPane, null);
-		txtLogging = new JEditorPane();
+		txtLogging = new JTextPane();
 		txtLogging.setEditable(false);
-		txtLogging.setFont(new Font("Lucida Sans", Font.PLAIN, 12));
+		txtLogging.setVisible(true);
 		txtLogging.setContentType("text/html");
 		loggingPane.setViewportView(txtLogging);
 		JPanel devOptionsPanel = new JPanel();
@@ -122,9 +122,7 @@ public class GUI extends JFrame {
 		JButton btnClearLogs = new JButton("Clear logs");
 		btnClearLogs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				synchronized(lock){
-					txtLogging.setText("<html><head></head><body></body></html>");
-				}
+				txtLogging.setText("<html><body></body></html>");
 			}
 		});
 		btnClearLogs.setBounds(10, 114, 140, 26);
@@ -231,21 +229,27 @@ public class GUI extends JFrame {
 		setSystemLF(cfg.isUseSystemLF());
 		setDebugLogging(cfg.isShowDebugMessages());
 	}
-	public void writeToLog(String text, Color c, boolean bold, boolean italic, boolean underlined, boolean striked){
-		synchronized(lock){
-			String html = Utility.formatTextHTML(text, c, bold, italic, underlined, striked);
-			String old = txtLogging.getText();
-			old = old.replaceAll("<html>", "");
-			old = old.replaceAll("</html>", "");
-			old = old.replaceAll("<head>", "");
-			old = old.replaceAll("</head>", "");
-			old = old.replaceAll("<body>", "");
-			old = old.replaceAll("</body>", "");
-			String header = "<html><head></head>"
-					+ "<body style=\"font-family:arial;\" >";
-			String footer = "<br></body></html>";
-			txtLogging.setText(header + old + html + footer);
+	public synchronized void writeToLog(String text, Color c, boolean bold, boolean italic, boolean underlined, boolean striked){
+		/*SwingUtilities.invokeLater(new Runnable() {@Override public void run(){
+		String html = Utility.formatTextHTML(text, c, bold, italic, underlined, striked);
+		String old = txtLogging.getText();
+		old = old.replaceAll("<html>", "");
+		old = old.replaceAll("</html>", "");
+		old = old.replaceAll("<head>", "");
+		old = old.replaceAll("</head>", "");
+		old = old.replaceAll("<body>", "");
+		old = old.replaceAll("</body>", "");
+		String header = "<html><body style=\"font-family:arial;\" >";
+		String footer = "<br></body></html>";
+		try {
+			txtLogging.getDocument().insertString(0, "hello", null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		txtLogging.repaint();
+		System.out.println(Thread.currentThread().getName());
+		}});*/
 	}
 	public long getMouseMoveMillis(){
 		long seconds = (int) secondSpinner.getValue();
